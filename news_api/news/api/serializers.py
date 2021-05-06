@@ -37,3 +37,19 @@ class AirticleSerializer(serializers.Serializer):
 
         instace.save()
         return instace
+
+    def validate(self, data):
+        """Validate object level attrs"""
+
+        if data['title'] == data['description']:
+            raise serializers.ValidationError(
+                "Title and Description must be different")
+        return data
+
+    def validate_title(self, value):
+        """Validated Field level attr here title"""
+
+        if len(value) < 10:
+            raise serializers.ValidationError(
+                "Title must be 10 character long")
+        return value

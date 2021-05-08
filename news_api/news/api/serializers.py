@@ -2,7 +2,7 @@ from rest_framework import serializers
 from datetime import datetime
 from django.utils.timesince import timesince
 
-from news.models import Airticle
+from news.models import Airticle, Journalist
 
 
 # class AirticleSerializer(serializers.Serializer):
@@ -63,6 +63,7 @@ class AirticleSerializer(serializers.ModelSerializer):
     """Seializes Article Model"""
 
     time_science_publication = serializers.SerializerMethodField()
+    author = serializers.StringRelatedField()
 
     class Meta:
         model = Airticle
@@ -96,3 +97,13 @@ class AirticleSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 'Title must be 20 character long')
         return value
+
+
+class JurnalizetSeriazliser(serializers.ModelSerializer):
+    """Serializes Journalist Model"""
+
+    articles = AirticleSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Journalist
+        fields = '__all__'

@@ -99,10 +99,14 @@ class AirticleSerializer(serializers.ModelSerializer):
         return value
 
 
-class JurnalizetSeriazliser(serializers.ModelSerializer):
+class JournalistSeriazliser(serializers.ModelSerializer):
     """Serializes Journalist Model"""
 
-    articles = AirticleSerializer(many=True, read_only=True)
+    # articles = AirticleSerializer(many=True, read_only=True)
+    articles = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name='articlecls-detail')
 
     class Meta:
         model = Journalist
